@@ -1,0 +1,3 @@
+package com.example.biptesttask.presentation.models
+
+interface SliderScreenState

@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">BipTestTask</string>
+    <string name="btn_next">next</string>
+    <string name="btn_skip">skip</string>
+
+    <string name="hint_auto_registration_number">A000AA 77</string>
+    <string name="hint_driver_license">00 AA 000000</string>
+
+    <string name="tv_title_auto_registration_number">Input the registration number of the car</string>
+    <string name="tv_title_driver_license">Input driver\'s license number</string>
+
+    <string name="error_incorrect_text">Incorrect input</string>
+    <string name="error_empty_text_field">Fill the field</string>
+
 </resources>

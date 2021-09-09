@@ -14,16 +14,7 @@ abstract class BaseViewModel<ScreenState : Any>(
     private val modelUpdateEvent = MutableLiveData<ScreenState>()
     val modelUpdate: LiveData<ScreenState> = modelUpdateEvent
 
-    open fun onStart() =
-        Unit
-
-    open fun onViewResumed() =
-        Unit
-
-    open fun onViewPaused() =
-        Unit
-
-    open fun onStop() =
+    open fun onViewCreated() =
         Unit
 
     @CallSuper
