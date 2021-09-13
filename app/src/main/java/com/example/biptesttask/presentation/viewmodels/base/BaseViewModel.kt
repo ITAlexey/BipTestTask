@@ -4,18 +4,25 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.biptesttask.presentation.command.Command
 
-abstract class BaseViewModel<ScreenState : Any>(
+abstract class BaseViewModel<
+        ScreenState : Any,
+        SupportedCommandType : Command>(
     initialState: ScreenState
 ) : ViewModel() {
 
     protected var model: ScreenState = initialState
 
     private val modelUpdateEvent = MutableLiveData<ScreenState>()
-    val modelUpdate: LiveData<ScreenState> = modelUpdateEvent
+    private val commandsMutableLiveData = MutableLiveData<SupportedCommandType>()
 
-    open fun onViewCreated() =
-        Unit
+    val modelUpdate: LiveData<ScreenState> = modelUpdateEvent
+    val commandsLiveData: LiveData<SupportedCommandType> = commandsMutableLiveData
+
+    protected fun executeCommand(command: SupportedCommandType) {
+        commandsMutableLiveData.value = command
+    }
 
     @CallSuper
     protected open fun refreshView() {

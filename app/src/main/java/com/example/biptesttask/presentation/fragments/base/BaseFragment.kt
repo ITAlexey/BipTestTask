@@ -6,14 +6,17 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.biptesttask.R
+import com.example.biptesttask.presentation.command.Command
 import com.example.biptesttask.presentation.viewmodels.base.BaseViewModel
+import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseFragment<
         ScreenState : Any,
-        ViewModel : BaseViewModel<ScreenState>>(
-    @LayoutRes val layoutResId: Int,
+        CommandType : Command,
+        ViewModel : BaseViewModel<ScreenState, CommandType>>(
     viewModelClass: Class<ViewModel>
-) : Fragment(layoutResId) {
+) : Fragment() {
 
     protected val viewModel: ViewModel by lazy { ViewModelProvider(this).get(viewModelClass) }
 
@@ -24,10 +27,23 @@ abstract class BaseFragment<
     }
 
     private fun subscribeToViewModelObservables() {
-        val modelObserver = Observer<ScreenState>(this::renderView)
+        val modelObserver = Observer(this::renderView)
         viewModel.modelUpdate.observe(viewLifecycleOwner, modelObserver)
+        val commandObserver = Observer(this::executeCommand)
+        viewModel.commandsLiveData.observe(viewLifecycleOwner, commandObserver)
     }
 
-    abstract fun renderView(model: ScreenState)
+    protected open fun executeCommand(command: CommandType) {
+        showUnderDevelopmentMessage()
+    }
 
+    protected open fun renderView(model: ScreenState) {
+        showUnderDevelopmentMessage()
+    }
+
+    private fun showUnderDevelopmentMessage() {
+        view?.run {
+            Snackbar.make(this, R.string.text_under_development, Snackbar.LENGTH_SHORT).show()
+        }
+    }
 }

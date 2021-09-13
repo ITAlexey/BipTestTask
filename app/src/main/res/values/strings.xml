@@ -12,4 +12,7 @@
     <string name="error_incorrect_text">Incorrect input</string>
     <string name="error_empty_text_field">Fill the field</string>
 
+    <string name="text_under_development">developing…</string>
+    <string name="tv_title_auto_number">Input car number</string>
+    <string name="hint_auto_number">000ABC00</string>
 </resources>

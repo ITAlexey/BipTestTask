@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:startDestination="@id/fragment_slider">
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/fragment_wizard_slider">
 
     <fragment
-        android:id="@id/fragment_slider"
+        android:id="@+id/fragment_wizard_slider"
         android:name="com.example.biptesttask.presentation.fragments.SliderFragment"
-        android:label="SliderFragment" />
+        android:label="Wizard Slider"
+        tools:layout="@layout/fragment_item_wizard_page">
+    </fragment>
+
+<!--    <fragment-->
+<!--        android:id="@+id/fragment_walkthrough_slider"-->
+<!--        android:name="com.example.biptesttask.presentation.fragments.Walk"-->
+<!--        android:label="Walkthrough Slider"-->
+<!--        tools:layout="@layout/fragment_item_walkthrough_page">-->
+
+<!--        <action-->
+<!--            app:destination=""-->
+
+<!--    </fragment>-->
+
+    <fragment
+        android:id="@+id/fragment_profile"
+        android:name="com.example.biptesttask.presentation.fragments.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+
 
 </navigation>

@@ -1,3 +1,9 @@
 package com.example.biptesttask.presentation.models
 
-interface SliderScreenState
+import androidx.annotation.LayoutRes
+
+class SliderScreenState(
+    val currentPageItem: Int = 0,
+    @LayoutRes
+    val layoutResId: Int = 0
+)

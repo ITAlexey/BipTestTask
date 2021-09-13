@@ -1,6 +1,6 @@
 package com.example.biptesttask.domain.models
 
-class User (
+class Driver (
     // Vehicle Registration Certificate
     val vrs: String?,
     val driverLicense: String?
