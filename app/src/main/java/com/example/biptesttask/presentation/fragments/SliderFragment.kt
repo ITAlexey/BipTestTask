@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.biptesttask.databinding.FragmentSliderBinding
 import com.example.biptesttask.presentation.adapters.WalkthroughSliderAdapter
 import com.example.biptesttask.presentation.adapters.WizardSliderAdapter
@@ -15,21 +14,19 @@ import com.example.biptesttask.presentation.models.SliderScreenState
 import com.example.biptesttask.presentation.viewmodels.SliderViewModel
 
 class SliderFragment :
-    BaseFragment<
-            SliderScreenState,
-            WizardSliderCommand,
-            SliderViewModel>(
-        SliderViewModel::class.java
-    ) {
+    BaseFragment<SliderScreenState, WizardSliderCommand, SliderViewModel>()
+{
     private var adapter: FragmentStateAdapter? = null
-    private val binding by viewBinding(FragmentSliderBinding::bind)
+    private lateinit var binding: FragmentSliderBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? =
-        binding.root
+    ): View? {
+        binding = FragmentSliderBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,4 +60,7 @@ class SliderFragment :
         private const val WIZARD_ADAPTER = "WIZARD"
         private const val WALKTHROUGH_ADAPTER = "WALKTHROUGH"
     }
+
+    override fun getViewModelClass(): Class<SliderViewModel> =
+        SliderViewModel::class.java
 }

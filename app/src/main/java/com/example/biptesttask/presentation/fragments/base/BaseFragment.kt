@@ -2,11 +2,11 @@ package com.example.biptesttask.presentation.fragments.base
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.biptesttask.R
+import com.example.biptesttask.presentation.App
 import com.example.biptesttask.presentation.command.Command
 import com.example.biptesttask.presentation.viewmodels.base.BaseViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -14,17 +14,25 @@ import com.google.android.material.snackbar.Snackbar
 abstract class BaseFragment<
         ScreenState : Any,
         CommandType : Command,
-        ViewModel : BaseViewModel<ScreenState, CommandType>>(
-    viewModelClass: Class<ViewModel>
-) : Fragment() {
+        ViewModel : BaseViewModel<ScreenState, CommandType>> : Fragment() {
 
-    protected val viewModel: ViewModel by lazy { ViewModelProvider(this).get(viewModelClass) }
+    protected lateinit var viewModel: ViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViewModel()
         subscribeToViewModelObservables()
     }
+
+    private fun initViewModel() {
+        val app = (requireActivity()).applicationContext as App
+        val viewModelFactory = app.viewModelFactory
+        val viewModelProvider = ViewModelProvider(this, viewModelFactory)
+        viewModel = viewModelProvider.get(getViewModelClass())
+    }
+
+    abstract fun getViewModelClass(): Class<ViewModel>
 
     private fun subscribeToViewModelObservables() {
         val modelObserver = Observer(this::renderView)

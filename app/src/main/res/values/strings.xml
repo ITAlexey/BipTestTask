@@ -15,4 +15,6 @@
     <string name="text_under_development">developing…</string>
     <string name="tv_title_auto_number">Input car number</string>
     <string name="hint_auto_number">000ABC00</string>
+    <string name="btn_fines">find out fines</string>
+    <string name="img_arrow_next">press the button to go forward</string>
 </resources>

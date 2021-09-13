@@ -12,7 +12,7 @@ import com.example.biptesttask.presentation.models.WizardPageState
 import com.example.biptesttask.presentation.viewmodels.base.BaseViewModel
 
 class WizardPageViewModel(
-    private val repository: SharedPrefsEncrypted,
+//    private val repository: SharedPrefsEncrypted,
     private val mapper: SliderPageMapper
 ) : BaseViewModel<
         WizardPageScreenState,
