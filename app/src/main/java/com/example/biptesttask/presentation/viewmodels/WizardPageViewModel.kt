@@ -94,7 +94,7 @@ class WizardPageViewModel(
     }
 
     private fun processFragmentTransition(updatedPageState: WizardPageState) {
-        executeCommand()
+        executeCommand(WizardPageCommand.NavigateNext)
         prepareFragmentPage(
             wizardPageState = updatedPageState,
             shouldRefreshView = false

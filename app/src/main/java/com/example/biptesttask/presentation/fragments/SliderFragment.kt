@@ -7,14 +7,15 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.biptesttask.databinding.FragmentSliderBinding
+import com.example.biptesttask.presentation.adapters.WalkthroughSliderAdapter
 import com.example.biptesttask.presentation.adapters.WizardSliderAdapter
-import com.example.biptesttask.presentation.command.WizardSliderCommand
+import com.example.biptesttask.presentation.command.SliderCommand
 import com.example.biptesttask.presentation.fragments.base.BaseFragment
 import com.example.biptesttask.presentation.models.SliderScreenState
 import com.example.biptesttask.presentation.viewmodels.SliderViewModel
 
 class SliderFragment :
-    BaseFragment<SliderScreenState, WizardSliderCommand, SliderViewModel>() {
+    BaseFragment<SliderScreenState, SliderCommand, SliderViewModel>() {
     private var adapter: FragmentStateAdapter? = null
     private lateinit var binding: FragmentSliderBinding
 
@@ -29,12 +30,27 @@ class SliderFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.onViewCreated()
 
-        setUpAdapter()
+        initListeners()
     }
 
-    private fun setUpAdapter() {
-        adapter = WizardSliderAdapter(parentFragmentManager, lifecycle)
+    private fun initListeners() =
+        with(binding) {
+            btnFines.setOnClickListener { viewModel.onFinesButtonClicked() }
+            imgBtnNext.setOnClickListener { viewModel.onArrowButtonClicked() }
+        }
+
+    override fun executeCommand(command: SliderCommand) =
+        when (command) {
+            is SliderCommand.AdapterType.Wizard ->
+                setUpAdapter(WizardSliderAdapter(parentFragmentManager, lifecycle))
+            is SliderCommand.AdapterType.Walkthrough ->
+                setUpAdapter(WalkthroughSliderAdapter(parentFragmentManager, lifecycle))
+        }
+
+    private fun setUpAdapter(createdAdapter: FragmentStateAdapter) {
+        adapter = createdAdapter
         binding.viewPager.adapter = adapter
     }
 

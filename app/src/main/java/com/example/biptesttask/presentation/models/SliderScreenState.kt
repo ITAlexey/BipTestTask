@@ -1,14 +1,16 @@
 package com.example.biptesttask.presentation.models
 
+import com.example.biptesttask.presentation.command.SliderCommand
+
 class SliderScreenState(
-    val currentSlider: SliderAdapterType,
-    val pagePosition: Int = 0,
-    val maxPageNumber: Int,
-    val isSwapTransitionEnabled: Boolean = false
+    val adapterType: SliderAdapter = SliderCommand.AdapterType.Wizard(),
+    val pageNumber: Int = 0,
+    val pageQuantity: Int = adapterType.pageQuantity
 ) {
-    val isBottomViewVisible: Boolean = currentSlider == SliderAdapterType.Wizard
+    val isBottomViewVisible: Boolean = adapterType is SliderCommand.AdapterType.Wizard
     val isNextButtonVisible: Boolean = isBottomViewVisible
     val isDotsVisible: Boolean = isNextButtonVisible
     val isFinesButtonVisible =
-        currentSlider == SliderAdapterType.Walkthrough && pagePosition == maxPageNumber - 1
+        adapterType is SliderCommand.AdapterType.Walkthrough && pageNumber == pageQuantity - 1
+    val isSwapActionEnabled: Boolean = adapterType is SliderCommand.AdapterType.Walkthrough
 }

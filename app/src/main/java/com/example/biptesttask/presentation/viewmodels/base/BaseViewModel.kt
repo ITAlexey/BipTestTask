@@ -24,9 +24,11 @@ abstract class BaseViewModel<
         commandsMutableLiveData.value = command
     }
 
+    open fun onViewCreated() =
+        Unit
+
     @CallSuper
     protected open fun refreshView() {
         modelUpdateEvent.value = model
     }
-
 }

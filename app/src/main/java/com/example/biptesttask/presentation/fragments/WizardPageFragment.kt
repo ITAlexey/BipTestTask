@@ -34,13 +34,18 @@ class WizardPageFragment :
         setUpListeners()
     }
 
-    private fun setUpListeners() {
-        binding.apply {
+    private fun setUpListeners() =
+        with(binding) {
             btnNext.setOnClickListener { viewModel.onNextButtonClicked() }
             btnSkip.setOnClickListener { viewModel.onSkipButtonClicked() }
             textInputEditText.addTextChangedListener(viewModel.initTextWatcher())
         }
-    }
+
+    override fun executeCommand(command: WizardPageCommand) =
+        when (command) {
+            is WizardPageCommand.NavigateNext ->;
+            is WizardPageCommand.NavigateBack ->;
+        }
 
     override fun renderView(model: WizardPageScreenState) {
         binding.tvTitleWizard.text = resources.getString(model.headerTitleResId)
