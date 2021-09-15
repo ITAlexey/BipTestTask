@@ -42,18 +42,6 @@ class WizardPageFragment :
         }
     }
 
-    override fun executeCommand(command: WizardPageCommand) =
-        when (command) {
-            is WizardPageCommand.NavigateToPage -> showAccordingPage(command.position);
-            is WizardPageCommand.SwitchSliderAdapter -> changeAdapter()
-        }
-
-    private fun changeAdapter() =
-        (parentFragment as SliderFragment).applyWalkthroughAdapter()
-
-    private fun showAccordingPage(position: Int) =
-        (parentFragment as SliderFragment).moveToAccordingPage(position)
-
     override fun renderView(model: WizardPageScreenState) {
         binding.tvTitleWizard.text = resources.getString(model.headerTitleResId)
         binding.textInputLayout.apply {

@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.biptesttask.databinding.FragmentSliderBinding
-import com.example.biptesttask.presentation.adapters.WalkthroughSliderAdapter
 import com.example.biptesttask.presentation.adapters.WizardSliderAdapter
 import com.example.biptesttask.presentation.command.WizardSliderCommand
 import com.example.biptesttask.presentation.fragments.base.BaseFragment
@@ -14,8 +14,7 @@ import com.example.biptesttask.presentation.models.SliderScreenState
 import com.example.biptesttask.presentation.viewmodels.SliderViewModel
 
 class SliderFragment :
-    BaseFragment<SliderScreenState, WizardSliderCommand, SliderViewModel>()
-{
+    BaseFragment<SliderScreenState, WizardSliderCommand, SliderViewModel>() {
     private var adapter: FragmentStateAdapter? = null
     private lateinit var binding: FragmentSliderBinding
 
@@ -31,36 +30,33 @@ class SliderFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpAdapter(WIZARD_ADAPTER)
+        setUpAdapter()
     }
 
-    private fun setUpAdapter(adapterType: String) {
-        adapter = if (adapterType == WIZARD_ADAPTER) {
-            WizardSliderAdapter(parentFragmentManager, lifecycle)
-        } else {
-            WalkthroughSliderAdapter(parentFragmentManager, lifecycle)
-        }
+    private fun setUpAdapter() {
+        adapter = WizardSliderAdapter(parentFragmentManager, lifecycle)
         binding.viewPager.adapter = adapter
-    }
-
-    fun moveToAccordingPage(currentPosition: Int) {
-        binding.viewPager.currentItem = currentPosition
-    }
-
-    fun applyWalkthroughAdapter() =
-        setUpAdapter(WALKTHROUGH_ADAPTER)
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        adapter = null
-    }
-
-    companion object {
-        private const val WIZARD_ADAPTER = "WIZARD"
-        private const val WALKTHROUGH_ADAPTER = "WALKTHROUGH"
     }
 
     override fun getViewModelClass(): Class<SliderViewModel> =
         SliderViewModel::class.java
+
+    override fun renderView(model: SliderScreenState) {
+        updateBottomViewVisibility(model)
+        updateButtonsVisibility(model)
+        updateDotsVisibility(model)
+    }
+
+    private fun updateBottomViewVisibility(model: SliderScreenState) {
+        binding.vBottomBackground.isVisible = model.isBottomViewVisible
+    }
+
+    private fun updateButtonsVisibility(model: SliderScreenState) {
+        binding.btnFines.isVisible = model.isFinesButtonVisible
+        binding.imgBtnNext.isVisible = model.isNextButtonVisible
+    }
+
+    private fun updateDotsVisibility(model: SliderScreenState) {
+        binding.rvDots.isVisible = model.isDotsVisible
+    }
 }

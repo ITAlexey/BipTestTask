@@ -13,8 +13,8 @@ class ViewModelFactory : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
         when (modelClass) {
-            ProfileViewModel::class.java -> ProfileViewModel() as T;
-            SliderViewModel::class.java -> SliderViewModel() as T;
+            ProfileViewModel::class.java -> ProfileViewModel() as T
+            SliderViewModel::class.java -> SliderViewModel() as T
             WalkthroughPageViewModel::class.java -> WalkthroughPageViewModel() as T
             WizardPageViewModel::class.java -> WizardPageViewModel(SliderPageMapper()) as T
             else -> throw IllegalArgumentException("Factory cannot make ViewModel of type ${modelClass.simpleName}")

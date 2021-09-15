@@ -94,6 +94,7 @@ class WizardPageViewModel(
     }
 
     private fun processFragmentTransition(updatedPageState: WizardPageState) {
+        executeCommand()
         prepareFragmentPage(
             wizardPageState = updatedPageState,
             shouldRefreshView = false

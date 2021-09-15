@@ -25,4 +25,7 @@ class WalkthroughPageFragment :
 
     override fun getViewModelClass(): Class<WalkthroughPageViewModel> =
         WalkthroughPageViewModel::class.java
+
+    override fun renderView(model: WalkthroughPageScreenState) {
+    }
 }

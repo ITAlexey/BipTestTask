@@ -7,46 +7,61 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/v_bottom_line"
+        android:id="@+id/v_bottom_background"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/teal_200"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible" />
 
     <Button
-        android:layout_width="match_parent"
+        android:id="@+id/btnFines"
+        android:layout_width="0dp"
         android:layout_height="60dp"
         android:text="@string/btn_fines"
         android:translationZ="1dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:alpha="0.4"
+        tools:visibility="visible" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/imgBtnNext"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:backgroundTint="@color/teal_200"
         android:contentDescription="@string/img_arrow_next"
         android:src="@drawable/ic_arrow_next"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_dots"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/teal_200"
         android:orientation="horizontal"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/v_bottom_line"
+        app:layout_constraintBottom_toBottomOf="@id/v_bottom_background"
+        app:layout_constraintEnd_toEndOf="@+id/imgBtnNext"
+        app:layout_constraintStart_toStartOf="@id/v_bottom_background"
+        app:layout_constraintTop_toTopOf="@id/v_bottom_background"
         tools:itemCount="4"
-        tools:listitem="@layout/item_rv_dot" />
+        tools:listitem="@layout/item_rv_dot"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

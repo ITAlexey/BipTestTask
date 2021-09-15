@@ -45,9 +45,7 @@ abstract class BaseFragment<
         showUnderDevelopmentMessage()
     }
 
-    protected open fun renderView(model: ScreenState) {
-        showUnderDevelopmentMessage()
-    }
+    abstract fun renderView(model: ScreenState)
 
     private fun showUnderDevelopmentMessage() {
         view?.run {
