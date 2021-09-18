@@ -1,6 +1,7 @@
 package com.example.biptesttask.presentation.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,11 +27,11 @@ class WizardPageFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val wizardPageNumber = arguments?.getInt(ARG_WIZARD_PAGE) ?: 0
         if (savedInstanceState == null) {
-            viewModel.init(wizardPageNumber)
+            val ordinalPageNumber = arguments?.getInt(ARG_WIZARD_PAGE) ?: 0
+            viewModel.init(ordinalPageNumber)
         }
+        Log.d("SLIDER", "onViewCreated: ")
         setUpListeners()
     }
 
@@ -41,11 +42,24 @@ class WizardPageFragment :
             textInputEditText.addTextChangedListener(viewModel.initTextWatcher())
         }
 
-    override fun executeCommand(command: WizardPageCommand) =
+//    override fun onStart() {
+//        super.onStart()
+//        viewModel.onStart()
+//    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("SLIDER", "onDestroy: WizardPageFragment")
+    }
+
+    override fun executeCommand(command: WizardPageCommand) {
         when (command) {
-            is WizardPageCommand.NavigateNext ->;
-            is WizardPageCommand.NavigateBack ->;
+            is WizardPageCommand.NavigateNext ->
+                (parentFragment as SliderFragment).moveToNextPage(command.pageState)
+            is WizardPageCommand.NavigateBack ->
+                (parentFragment as SliderFragment).moveToPreviousPage(command.pageState)
         }
+    }
 
     override fun renderView(model: WizardPageScreenState) {
         binding.tvTitleWizard.text = resources.getString(model.headerTitleResId)

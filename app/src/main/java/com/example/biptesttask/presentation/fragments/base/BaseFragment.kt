@@ -52,4 +52,5 @@ abstract class BaseFragment<
             Snackbar.make(this, R.string.text_under_development, Snackbar.LENGTH_SHORT).show()
         }
     }
+
 }

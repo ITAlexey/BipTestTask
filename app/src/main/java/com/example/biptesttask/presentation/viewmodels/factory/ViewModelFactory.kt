@@ -16,7 +16,7 @@ class ViewModelFactory : ViewModelProvider.Factory {
             ProfileViewModel::class.java -> ProfileViewModel() as T
             SliderViewModel::class.java -> SliderViewModel() as T
             WalkthroughPageViewModel::class.java -> WalkthroughPageViewModel() as T
-            WizardPageViewModel::class.java -> WizardPageViewModel(SliderPageMapper()) as T
+            WizardPageViewModel::class.java -> WizardPageViewModel() as T
             else -> throw IllegalArgumentException("Factory cannot make ViewModel of type ${modelClass.simpleName}")
         }
 }

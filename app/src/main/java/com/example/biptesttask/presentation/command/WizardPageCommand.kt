@@ -1,7 +1,9 @@
 package com.example.biptesttask.presentation.command
 
+import com.example.biptesttask.presentation.models.WizardPageState
+
 sealed class WizardPageCommand : Command {
 
-    object NavigateNext : WizardPageCommand()
-    object NavigateBack : WizardPageCommand()
+    class NavigateNext(val pageState: WizardPageState) : WizardPageCommand()
+    class NavigateBack(val pageState: WizardPageState) : WizardPageCommand()
 }

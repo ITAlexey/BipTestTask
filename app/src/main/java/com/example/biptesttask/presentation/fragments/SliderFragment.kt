@@ -1,6 +1,7 @@
 package com.example.biptesttask.presentation.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.example.biptesttask.presentation.adapters.WizardSliderAdapter
 import com.example.biptesttask.presentation.command.SliderCommand
 import com.example.biptesttask.presentation.fragments.base.BaseFragment
 import com.example.biptesttask.presentation.models.SliderScreenState
+import com.example.biptesttask.presentation.models.WizardPageState
 import com.example.biptesttask.presentation.viewmodels.SliderViewModel
 
 class SliderFragment :
@@ -44,9 +46,11 @@ class SliderFragment :
     override fun executeCommand(command: SliderCommand) =
         when (command) {
             is SliderCommand.AdapterType.Wizard ->
-                setUpAdapter(WizardSliderAdapter(parentFragmentManager, lifecycle))
+                setUpAdapter(WizardSliderAdapter(this))
             is SliderCommand.AdapterType.Walkthrough ->
-                setUpAdapter(WalkthroughSliderAdapter(parentFragmentManager, lifecycle))
+                setUpAdapter(WalkthroughSliderAdapter(this))
+            SliderCommand.Navigation.ToNextPage -> Unit
+            SliderCommand.Navigation.ToProfile -> Unit
         }
 
     private fun setUpAdapter(createdAdapter: FragmentStateAdapter) {
@@ -72,7 +76,22 @@ class SliderFragment :
         binding.imgBtnNext.isVisible = model.isNextButtonVisible
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("SLIDER", "onDestroy: viewPager2")
+    }
+
     private fun updateDotsVisibility(model: SliderScreenState) {
         binding.rvDots.isVisible = model.isDotsVisible
+    }
+
+    fun moveToNextPage(pageState: WizardPageState) {
+        binding.viewPager.currentItem = pageState.ordinal + 1
+    }
+
+    fun moveToPreviousPage(pageState: WizardPageState) {
+        if (pageState.ordinal != 0) {
+            binding.viewPager.currentItem = pageState.ordinal - 1
+        }
     }
 }

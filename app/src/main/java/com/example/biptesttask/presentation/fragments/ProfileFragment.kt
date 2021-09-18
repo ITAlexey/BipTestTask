@@ -13,4 +13,8 @@ class ProfileFragment : BaseFragment<
     override fun getViewModelClass(): Class<ProfileViewModel> =
         ProfileViewModel::class.java
 
+    override fun renderView(model: ProfileScreenState) {
+
+    }
+
 }

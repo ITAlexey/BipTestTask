@@ -1,9 +1,13 @@
 package com.example.biptesttask.presentation.models
 
 
-enum class WizardPageState(
-) {
-    DriverLicense,
+enum class WizardPageState {
     AutoNumber,
-    AutoRegistrationNumber
+    AutoRegistrationNumber,
+    DriverLicense;
+
+    companion object {
+        fun getPageByOrdinal(ordinal: Int): WizardPageState =
+            values()[ordinal]
+    }
 }

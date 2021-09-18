@@ -8,10 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.biptesttask.presentation.fragments.WalkthroughPageFragment
 import java.lang.IllegalArgumentException
 
-class WalkthroughSliderAdapter(
-    fragmentManager: FragmentManager,
-    lifecycle: Lifecycle
-) : FragmentStateAdapter(fragmentManager, lifecycle) {
+class WalkthroughSliderAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int =
         PAGE_NUMBER

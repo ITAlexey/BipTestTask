@@ -27,6 +27,9 @@ abstract class BaseViewModel<
     open fun onViewCreated() =
         Unit
 
+    open fun onStart() =
+        Unit
+
     @CallSuper
     protected open fun refreshView() {
         modelUpdateEvent.value = model

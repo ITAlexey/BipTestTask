@@ -2,18 +2,16 @@ package com.example.biptesttask.presentation.viewmodels
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.annotation.StringRes
 import com.example.biptesttask.R
-import com.example.biptesttask.data.repository.SharedPrefsEncrypted
 import com.example.biptesttask.presentation.command.WizardPageCommand
-import com.example.biptesttask.presentation.mappers.SliderPageMapper
 import com.example.biptesttask.presentation.models.WizardPageScreenState
 import com.example.biptesttask.presentation.models.WizardPageState
 import com.example.biptesttask.presentation.viewmodels.base.BaseViewModel
 
 class WizardPageViewModel(
 //    private val repository: SharedPrefsEncrypted,
-    private val mapper: SliderPageMapper
 ) : BaseViewModel<
         WizardPageScreenState,
         WizardPageCommand>(
@@ -21,39 +19,39 @@ class WizardPageViewModel(
 ) {
     private var currentInputText: String = ""
 
-    fun init(wizardPageNumber: Int) {
-        val wizardPageState = mapper.mapWizardPage(wizardPageNumber)
+    fun init(ordinalPageNumber: Int) {
+        val wizardPageState = WizardPageState.getPageByOrdinal(ordinalPageNumber)
         prepareFragmentPage(wizardPageState)
     }
 
-    private fun prepareFragmentPage(
-        wizardPageState: WizardPageState,
-        shouldRefreshView: Boolean = true
-    ) {
+    private fun prepareFragmentPage(wizardPageState: WizardPageState) {
         when (wizardPageState) {
             WizardPageState.AutoNumber ->
                 updateScreenState(
                     wizardPageState = wizardPageState,
                     headerTitleResId = R.string.tv_title_auto_number,
                     hintResId = R.string.hint_auto_number,
-                    shouldRefreshView = shouldRefreshView
+                    shouldRefreshView = true
                 )
             WizardPageState.AutoRegistrationNumber ->
                 updateScreenState(
                     wizardPageState = wizardPageState,
                     headerTitleResId = R.string.tv_title_auto_registration_number,
                     hintResId = R.string.hint_auto_registration_number,
-                    shouldRefreshView = shouldRefreshView
+                    shouldRefreshView = true
                 )
             WizardPageState.DriverLicense ->
                 updateScreenState(
                     wizardPageState = wizardPageState,
                     headerTitleResId = R.string.tv_title_driver_license,
                     hintResId = R.string.hint_driver_license,
-                    shouldRefreshView = shouldRefreshView
+                    shouldRefreshView = true
                 )
         }
     }
+
+    override fun onStart() =
+        updateScreenState()
 
     fun initTextWatcher(): TextWatcher =
         object : TextWatcher {
@@ -73,8 +71,9 @@ class WizardPageViewModel(
             }
         }
 
-    fun onNextButtonClicked() =
+    fun onNextButtonClicked() {
         validateInputText()
+    }
 
     private fun validateInputText() =
         when {
@@ -89,27 +88,19 @@ class WizardPageViewModel(
     private fun processSuccessCase() {
         //need to map before saving
 //        repository.saveData()
-        val updatePageState = model.getNextWizardPageState()
-        processFragmentTransition(updatePageState)
+        executeCommand(WizardPageCommand.NavigateNext(model.wizardPageState))
     }
-
-    private fun processFragmentTransition(updatedPageState: WizardPageState) {
-        executeCommand(WizardPageCommand.NavigateNext)
-        prepareFragmentPage(
-            wizardPageState = updatedPageState,
-            shouldRefreshView = false
-        )
-    }
-
 
     private fun processErrorCase(@StringRes errorResId: Int) =
         updateScreenState(errorResId = errorResId)
 
-    fun onSkipButtonClicked() {
-    }
+    fun onSkipButtonClicked() =
+        executeCommand(WizardPageCommand.NavigateBack(model.wizardPageState))
 
     private fun updateScreenState(
+        pageQuantity: Int = model.pageQuantity,
         wizardPageState: WizardPageState = model.wizardPageState,
+        ordinalPageNumber: Int = model.ordinalPageNumber,
         inputText: String = model.inputText,
         @StringRes
         headerTitleResId: Int = model.headerTitleResId,
@@ -120,10 +111,9 @@ class WizardPageViewModel(
         shouldRefreshView: Boolean = true
     ) {
         model = WizardPageScreenState(
-            wizardPageState,
-            inputText,
-            headerTitleResId,
-            hintResId,
+            pageQuantity, wizardPageState,
+            ordinalPageNumber, inputText,
+            headerTitleResId, hintResId,
             errorResId
         )
         if (shouldRefreshView) {
@@ -132,7 +122,7 @@ class WizardPageViewModel(
     }
 
     companion object {
-        private const val MAX_TEXT_LENGTH = 8
+        private const val MAX_TEXT_LENGTH = 9
         private const val EMPTY_LINE = ""
     }
 }
